@@ -14,4 +14,6 @@ public class Estudiante extends Persona {
     @ManyToMany
     @JoinTable(name = "estudiante_x_curso", joinColumns = @JoinColumn(name = "estudiante_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
     private List<Curso> cursosQueAsiste;
+    @OneToOne(mappedBy = "estudiante") // nombre del atributo en el obj usuario
+    private Usuario usuario;
 }

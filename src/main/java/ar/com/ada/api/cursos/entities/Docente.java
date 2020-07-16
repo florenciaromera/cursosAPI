@@ -13,4 +13,6 @@ public class Docente extends Persona {
     private Integer docenteId;
     @JoinTable(name = "docente_x_curso", joinColumns = @JoinColumn(name = "docente_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
     private List<Curso> cursosQueDicta;
+    @OneToOne(mappedBy = "docente")
+    private Usuario usuario;
 }

@@ -15,7 +15,7 @@ public class Curso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cursoId;
     private String nombre;
-    // cursosDictados para diferenciar los cursos de docente de los de estudiante
+    // cursosQueDicta para diferenciar los cursos de docente de los de estudiante
     @ManyToMany(mappedBy = "cursosQueDicta")
     private List<Docente> docentes;
     @ManyToMany(mappedBy = "cursosQueAsiste")
@@ -25,4 +25,6 @@ public class Curso {
     private List<Clase> clases;
     @ManyToMany(mappedBy = "cursos")
     private List<Categoria> categorias;
+    @OneToMany(mappedBy = "inscripcion_id")
+    private Inscripcion inscripcion;
 }
