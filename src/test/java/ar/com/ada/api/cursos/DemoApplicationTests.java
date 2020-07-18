@@ -7,24 +7,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ar.com.ada.api.cursos.entities.Categoria;
-import ar.com.ada.api.cursos.repos.CategoriaRepository;
+import ar.com.ada.api.cursos.repos.*;
+import ar.com.ada.api.cursos.services.*;
 import java.util.*;
 
 @SpringBootTest
 class DemoApplicationTests {
 
 	@Autowired
-	CategoriaRepository repoCategoria;
+	CategoriaService categoriaService;
 
 	@Test
 	void crearCategoriaSinCursoTest() {
 		tituloTestInicio("Categoria sin Curso");
-		Categoria categoria = new Categoria();
 
-		categoria.setNombre("Matematicas");
-		categoria.setDescripcion("vemos algebra");
+		/*
+		 * Esto de abajo ya no nos interesa porque evoluciono a un servicio
+		 * CategoriaService.crearCategoria Categoria categoria = new Categoria();
+		 * 
+		 * categoria.setNombre("Matematicas");
+		 * categoria.setDescripcion("vemos algebra");
+		 * 
+		 * repoCategoria.save(categoria);
+		 */
+		Categoria categoria = categoriaService.crearCategoria("Matematicas", "vemos algebra");
 
-		repoCategoria.save(categoria);
 		// si id era int hubiera sido assertTrue(categoria.getCategoriaId() > 0)
 		// como el id es Integer se utiliza el compareTo que devuelve:
 		// -1 si a < parametro
@@ -34,14 +41,20 @@ class DemoApplicationTests {
 
 		Integer nuevaCategoriaId = categoria.getCategoriaId();
 
-		// Busca la categoria que tiene el ID en la base de datos
-		// particularmente el findById del repo: devuelve un Optional
-		// Optional va a haber que checkear si el valor existe o no.
-		Optional<Categoria> catDesdeDBResultado = repoCategoria.findById(nuevaCategoriaId);
+		/*
+		 * Esta es la forma sin SERVICE // Busca la categoria que tiene el ID en la base
+		 * de datos // particularmente el findById del repo: devuelve un Optional //
+		 * Optional va a haber que checkear si el valor existe o no. Optional<Categoria>
+		 * catDesdeDBResultado = categoriaService.findById(nuevaCategoriaId);
+		 * 
+		 * assertTrue(catDesdeDBResultado.isPresent());
+		 * 
+		 * Categoria categoriaDesdeDB = catDesdeDBResultado.get();
+		 */
 
-		assertTrue(catDesdeDBResultado.isPresent());
+		Categoria categoriaDesdeDB = categoriaService.buscarPorId(nuevaCategoriaId);
 
-		Categoria categoriaDesdeDB = catDesdeDBResultado.get();
+		assertTrue(categoriaDesdeDB != null);
 
 		assertEquals("Matematicas", categoriaDesdeDB.getNombre());
 		assertEquals("vemos algebra", categoriaDesdeDB.getDescripcion());
