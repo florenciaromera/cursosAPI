@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import ar.com.ada.api.cursos.entities.*;
+import ar.com.ada.api.cursos.models.request.CategoriaModifRequest;
 import ar.com.ada.api.cursos.repos.CategoriaRepository;
 import java.util.*;
 
@@ -25,6 +26,10 @@ public class CategoriaService {
         return categoria;
     }
 
+    public Categoria actualizarCategoria(Categoria categoria) {
+        return repoCategoria.save(categoria);
+    }
+
     public Categoria buscarPorId(Integer id) {
         Optional<Categoria> opCategoria = repoCategoria.findById(id);
 
@@ -36,5 +41,9 @@ public class CategoriaService {
         else
             return null;
 
+    }
+
+    public List<Categoria> listarTodas() {
+        return repoCategoria.findAll();
     }
 }

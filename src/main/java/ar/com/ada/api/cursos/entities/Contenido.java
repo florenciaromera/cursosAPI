@@ -15,6 +15,8 @@ public class Contenido {
     private String payload;
     @Column(name = "payload_simple")
     private String payloadSimple;
+    @Column(name = "tipo_contenido_id")
+    private TipoContenidoEnum tipoContenidoId;
     @ManyToOne
     @JoinColumn(name = "clase_id", referencedColumnName = "clase_id")
     private Clase clase;
@@ -91,5 +93,13 @@ public class Contenido {
 
     public void setClase(Clase clase) {
         this.clase = clase;
+    }
+
+    public TipoContenidoEnum getTipoContenidoId() {
+        return tipoContenidoId;
+    }
+
+    public void setTipoContenidoId(TipoContenidoEnum tipoContenidoId) {
+        this.tipoContenidoId = tipoContenidoId;
     }
 }

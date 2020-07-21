@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ar.com.ada.api.cursos.entities.Categoria;
-import ar.com.ada.api.cursos.repos.*;
 import ar.com.ada.api.cursos.services.*;
-import java.util.*;
 
 @SpringBootTest
 class DemoApplicationTests {
