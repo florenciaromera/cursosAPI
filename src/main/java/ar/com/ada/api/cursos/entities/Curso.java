@@ -85,4 +85,40 @@ public class Curso {
         this.inscripciones = inscripciones;
     }
 
+    public void asignarDocente(Docente docente) {
+        // this refiere a la instancia de la clase cursos actualmente ejecutando el
+        // codigo (el metodo asignar docente)
+        // docentes refiere al atributo lista de docentes que están asignados a ese
+        // curso
+        this.docentes.add(docente);
+        // le "avisamos al docente" que tiene que dictar ese curso
+        docente.getCursosQueDicta().add(this);
+    }
+
+    public void asignarEstudiante(Estudiante estudiante) {
+        // this refiere a la instancia de la clase cursos actualmente ejecutando el
+        // codigo(el metodo asignar estudiante)
+        // estudiantes refiere al atributo lista de estudiantes que están asignados a
+        // ese curso
+        this.estudiantes.add(estudiante);
+        // le "avisamos al estudiante" que tiene que asistir a ese curso
+        estudiante.getCursosQueAsiste().add(this);
+    }
+
+    public void agregarClase(Clase clase) {
+        this.clases.add(clase);
+        // curso no es una lista, por lo que se setea
+        clase.setCurso(this);
+    }
+
+    public void agregarCategoria(Categoria categoria) {
+        this.categorias.add(categoria);
+        categoria.getCursos().add(this);
+    }
+
+    public void agregarInscripcion(Inscripcion inscripcion) {
+        this.inscripciones.add(inscripcion);
+        inscripcion.setCurso(this);
+    }
+
 }

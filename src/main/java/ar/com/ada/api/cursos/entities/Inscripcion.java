@@ -22,7 +22,7 @@ public class Inscripcion {
     private EstadoInscripcionEnum estadoInscripcionEnum;
 
     public enum EstadoInscripcionEnum {
-        DOCENTE(1), ESTUDIANTE(2), STAFF(3);
+        INACTIVO(0), ACTIVO(1);
 
         private final Integer value;
 
@@ -45,5 +45,45 @@ public class Inscripcion {
             }
             return status;
         }
+    }
+
+    public Integer getInscripcionId() {
+        return inscripcionId;
+    }
+
+    public void setInscripcionId(Integer inscripcionId) {
+        this.inscripcionId = inscripcionId;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public EstadoInscripcionEnum getEstadoInscripcionEnum() {
+        return estadoInscripcionEnum;
+    }
+
+    public void setEstadoInscripcionEnum(EstadoInscripcionEnum estadoInscripcionEnum) {
+        this.estadoInscripcionEnum = estadoInscripcionEnum;
     }
 }
