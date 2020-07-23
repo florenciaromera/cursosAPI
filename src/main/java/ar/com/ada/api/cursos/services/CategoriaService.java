@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import ar.com.ada.api.cursos.entities.*;
-import ar.com.ada.api.cursos.models.request.CategoriaModifRequest;
 import ar.com.ada.api.cursos.repos.CategoriaRepository;
 import java.util.*;
 
@@ -38,6 +37,19 @@ public class CategoriaService {
         // trajo.
         if (opCategoria.isPresent())
             return opCategoria.get();
+        else
+            return null;
+
+    }
+
+    public List<Categoria> buscarPorIds(List<Integer> ids) {
+        List<Categoria> listaCategoria = repoCategoria.findAllById(ids);
+
+        // Si tiene un valor de categoria en el elemento que trajo.
+        // Camion con heladera dentro. hasta que no abrimos la puerta no sabemos si la
+        // trajo.
+        if (!listaCategoria.isEmpty())
+            return listaCategoria;
         else
             return null;
 

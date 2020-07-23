@@ -48,8 +48,6 @@ public class CategoriaController {
             return ResponseEntity.notFound().build();
         }
 
-        categoria.setNombre(cMR.nombre);
-        categoria.setDescripcion(cMR.descripcion);
         Categoria categoriaActualizada = categoriaService.actualizarCategoria(categoria);
 
         GenericResponse r = new GenericResponse();

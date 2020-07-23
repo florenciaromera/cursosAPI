@@ -11,6 +11,8 @@ import ar.com.ada.api.cursos.entities.Pais.*;
 @MappedSuperclass
 public class Persona {
     private String nombre;
+    // no hay relacion OneToMany porque paisId y tipoDocumentoId son tipos, no
+    // objetos (las anotations de relacion son para objetos)
     @Column(name = "pais_id")
     private PaisEnum paisId;
     @Column(name = "tipo_documento_id")

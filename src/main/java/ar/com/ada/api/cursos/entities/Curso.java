@@ -1,5 +1,6 @@
 package ar.com.ada.api.cursos.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -28,6 +29,8 @@ public class Curso {
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Inscripcion> inscripciones;
+    @Column(name = "duracion_horas")
+    private Integer duracionHoras;
 
     public Integer getCursoId() {
         return cursoId;
@@ -111,14 +114,26 @@ public class Curso {
         clase.setCurso(this);
     }
 
-    public void agregarCategoria(Categoria categoria) {
-        this.categorias.add(categoria);
-        categoria.getCursos().add(this);
+    public void agregarCategorias(List<Categoria> categoriasList) {
+        if (this.categorias == null)
+            this.categorias = new ArrayList<Categoria>();
+        this.categorias.addAll(categoriasList);
+        for (Categoria c : categorias) {
+            c.getCursos().add(this);
+        }
     }
 
     public void agregarInscripcion(Inscripcion inscripcion) {
         this.inscripciones.add(inscripcion);
         inscripcion.setCurso(this);
+    }
+
+    public Integer getDuracionHoras() {
+        return duracionHoras;
+    }
+
+    public void setDuracionHoras(Integer duracionHoras) {
+        this.duracionHoras = duracionHoras;
     }
 
 }
