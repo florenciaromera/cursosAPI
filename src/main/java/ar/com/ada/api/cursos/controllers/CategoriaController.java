@@ -23,7 +23,7 @@ public class CategoriaController {
 
     // Post: que recibimos algo, que nos permite instanciar una Categoria y ponerle
     // datos.
-    @PostMapping("/categorias")
+    @PostMapping("/api/categorias")
     public ResponseEntity<GenericResponse> crearCategoria(@RequestBody Categoria categoria) {
 
         categoriaService.crearCategoria(categoria);
