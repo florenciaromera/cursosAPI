@@ -40,7 +40,7 @@ public class CategoriaController {
 
     }
 
-    @PutMapping(("/categorias/{id}"))
+    @PutMapping(("/api/categorias/{id}"))
     ResponseEntity<GenericResponse> actualizarCategoriaPorId(@PathVariable Integer id,
             @RequestBody CategoriaModifRequest cMR) {
         Categoria categoria = categoriaService.buscarPorId(id);
@@ -57,10 +57,11 @@ public class CategoriaController {
         r.message = "Categoria actualizada con éxito";
         r.id = categoriaActualizada.getCategoriaId();
 
+
         return ResponseEntity.ok(r);
     }
 
-    @GetMapping("/categorias/{id}")
+    @GetMapping("/api/categorias/{id}")
     ResponseEntity<CategoriaResponse> buscarPorIdCategoria(@PathVariable Integer id) {
         Categoria categoria = categoriaService.buscarPorId(id);
 
@@ -71,7 +72,7 @@ public class CategoriaController {
         return ResponseEntity.ok(cGR);
     }
 
-    @GetMapping("/categorias")
+    @GetMapping("/api/categorias")
     ResponseEntity<List<CategoriaResponse>> listarCategorias() {
         List<Categoria> listaCategorias = categoriaService.listarTodas();
         List<CategoriaResponse> listaCategoriasResponse = new ArrayList<CategoriaResponse>();

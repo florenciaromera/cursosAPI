@@ -1,5 +1,7 @@
 package ar.com.ada.api.cursos.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,12 @@ public class CursoService {
         // return null;
         // cursoRepository.save(curso);
         // return curso;
+
+    }
+
+    public List<Curso> listaCursos() {
+
+        return cursoRepository.findAll();
 
     }
 }
