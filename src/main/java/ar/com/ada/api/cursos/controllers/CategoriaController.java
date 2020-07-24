@@ -67,6 +67,8 @@ public class CategoriaController {
         CategoriaResponse cGR = new CategoriaResponse();
         cGR.nombre = categoria.getNombre();
         cGR.descripcion = categoria.getDescripcion();
+        cGR.categoriaId = categoria.getCategoriaId();
+        cGR.cursosLista = categoria.getCursos();
 
         return ResponseEntity.ok(cGR);
     }

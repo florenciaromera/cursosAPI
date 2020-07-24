@@ -2,11 +2,13 @@ package ar.com.ada.api.cursos.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.com.ada.api.cursos.models.request.CursoRequest;
+import ar.com.ada.api.cursos.models.response.CursoResponse;
 import ar.com.ada.api.cursos.models.response.GenericResponse;
 import ar.com.ada.api.cursos.services.CursoService;
 
@@ -44,6 +46,22 @@ public class CursoController {
     public ResponseEntity<List<Curso>> listaCursos() {
         List<Curso> listaCursos = cursoService.listaCursos();
         return ResponseEntity.ok(listaCursos);
+    }
+
+    @GetMapping("/api/cursos/{id}")
+    public ResponseEntity<CursoResponse> cursoPorId(@PathVariable Integer id) {
+        Curso cE = cursoService.buscarPorId(id);
+        CursoResponse cR = new CursoResponse();
+        cR.cursoId = cE.getCursoId();
+        cR.nombre = cE.getNombre();
+        cR.descripcion = cE.getDescripcion();
+        cR.duracionHoras = cE.getDuracionHoras();
+        cR.docentesLista = cE.getDocentes();
+        cR.estudiantesLista = cE.getEstudiantes();
+        cR.inscripcionesLista = cE.getInscripciones();
+        cR.categoriasLista = cE.getCategorias();
+        cR.clasesLista = cE.getClases();
+        return ResponseEntity.ok(cR);
     }
 
 }
