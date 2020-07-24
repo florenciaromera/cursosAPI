@@ -18,46 +18,32 @@ import ar.com.ada.api.cursos.entities.*;
 @RestController
 public class CursoController {
 
-  @Autowired
-  CursoService cursoService;
+    @Autowired
+    CursoService cursoService;
 
-  @PostMapping("/api/cursos")
-  public ResponseEntity<GenericResponse> crearCurso(@RequestBody CursoRequest cursoReq) {
+    @PostMapping("/api/cursos")
+    public ResponseEntity<GenericResponse> crearCurso(@RequestBody CursoRequest cursoReq) {
 
-    Curso cursoCreado = cursoService.crearCurso(cursoReq.nombre, cursoReq.categoriaId, cursoReq.duracionHoras,
-        cursoReq.descripcion);
+        Curso cursoCreado = cursoService.crearCurso(cursoReq.nombre, cursoReq.categoriaId, cursoReq.duracionHoras,
+                cursoReq.descripcion);
 
-    if (cursoCreado == null)
-      return ResponseEntity.badRequest().build();
+        if (cursoCreado == null)
+            return ResponseEntity.badRequest().build();
 
-    GenericResponse gR = new GenericResponse();
-    gR.isOk = true;
-    gR.message = "Curso creado con éxito";
-    gR.id = cursoCreado.getCursoId();
-    return ResponseEntity.ok(gR);
+        GenericResponse gR = new GenericResponse();
+        gR.isOk = true;
+        gR.message = "Curso creado con éxito";
+        gR.id = cursoCreado.getCursoId();
+        return ResponseEntity.ok(gR);
 
-    // GenericResponse gR = new GenericResponse();
-    // return ResponseEntity.ok(gR);
-  }
-  // y=f(x)=x+2
-  // f(int x ) { return x + 2;}
-  // f(5)=5+2
+        // GenericResponse gR = new GenericResponse();
+        // return ResponseEntity.ok(gR);
+    }
 
-  // cursoService.crearCurso(cursoReq.nombre)
-  // z = f(x, y) = y + x * 2
-  // declarar
-  // f(int x, int y) { return y + x * 2}
-  // llamar a una fucion
-  // f(3,5) = 5 + 3 * 2 = 11
-
-  @GetMapping("/api/cursos")
-  public ResponseEntity<List<Curso>> listaCursos() {
-    List<Curso> listaCursos = cursoService.listaCursos();
-
-    return ResponseEntity.ok(listaCursos);
-
-  }
-
-
+    @GetMapping("/api/cursos")
+    public ResponseEntity<List<Curso>> listaCursos() {
+        List<Curso> listaCursos = cursoService.listaCursos();
+        return ResponseEntity.ok(listaCursos);
+    }
 
 }

@@ -26,8 +26,8 @@ public class Curso {
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Clase> clases;
-    @JsonIgnore
     @ManyToMany(mappedBy = "cursos")
+    @JsonIgnore
     private List<Categoria> categorias = new ArrayList<>();
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)

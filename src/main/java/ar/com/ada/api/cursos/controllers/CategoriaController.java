@@ -57,7 +57,6 @@ public class CategoriaController {
         r.message = "Categoria actualizada con éxito";
         r.id = categoriaActualizada.getCategoriaId();
 
-
         return ResponseEntity.ok(r);
     }
 
@@ -80,6 +79,8 @@ public class CategoriaController {
             CategoriaResponse cR = new CategoriaResponse();
             cR.nombre = c.getNombre();
             cR.descripcion = c.getDescripcion();
+            cR.categoriaId = c.getCategoriaId();
+            cR.cursosLista = c.getCursos();
             listaCategoriasResponse.add(cR);
         }
         return ResponseEntity.ok(listaCategoriasResponse);
