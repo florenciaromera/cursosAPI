@@ -1,6 +1,6 @@
 package ar.com.ada.api.cursos.entities;
 
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -23,7 +23,7 @@ public class Clase {
     private Integer duracionHoras;
     @OneToMany(mappedBy = "clase", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Contenido> contenidos;
+    private List<Contenido> contenidos = new ArrayList<>();;
 
     public Integer getClaseId() {
         return claseId;

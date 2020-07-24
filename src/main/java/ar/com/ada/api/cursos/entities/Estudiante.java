@@ -1,6 +1,6 @@
 package ar.com.ada.api.cursos.entities;
 
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -13,7 +13,7 @@ public class Estudiante extends Persona {
     private Integer estudianteId;
     @ManyToMany
     @JoinTable(name = "estudiante_x_curso", joinColumns = @JoinColumn(name = "estudiante_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
-    private List<Curso> cursosQueAsiste;
+    private List<Curso> cursosQueAsiste = new ArrayList<>();
     @OneToOne(mappedBy = "estudiante") // nombre del atributo en el obj usuario
     private Usuario usuario;
 

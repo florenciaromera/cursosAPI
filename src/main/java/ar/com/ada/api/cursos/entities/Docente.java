@@ -1,6 +1,6 @@
 package ar.com.ada.api.cursos.entities;
 
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -13,7 +13,7 @@ public class Docente extends Persona {
     private Integer docenteId;
     @ManyToMany
     @JoinTable(name = "docente_x_curso", joinColumns = @JoinColumn(name = "docente_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
-    private List<Curso> cursosQueDicta;
+    private List<Curso> cursosQueDicta = new ArrayList<>();
     @OneToOne(mappedBy = "docente")
     private Usuario usuario;
 

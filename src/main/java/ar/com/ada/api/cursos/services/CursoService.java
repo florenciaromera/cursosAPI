@@ -23,10 +23,12 @@ public class CursoService {
         return true;
     }
 
-    public Curso crearCurso(String nombre, Integer categoriaId) {
+    public Curso crearCurso(String nombre, Integer categoriaId, Integer duracionHoras, String descripcion) {
         Curso curso = new Curso();
         curso.setNombre(nombre);
         curso.agregarCategoria(categoriaService.buscarPorId(categoriaId));
+        curso.setDuracionHoras(duracionHoras);
+        curso.setDescripcion(descripcion);
         // llamo al metodo creado en la linea 19
         boolean cursoCreado = crearCurso(curso);
         if (cursoCreado)
