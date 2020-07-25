@@ -2,8 +2,14 @@ package ar.com.ada.api.cursos.entities;
 
 import javax.persistence.*;
 
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
 @Entity
 @Table(name = "contenido")
+@TypeDef(name = "json", typeClass = JsonStringType.class)
 public class Contenido {
     @Id
     @Column(name = "contenido_id")
@@ -12,6 +18,8 @@ public class Contenido {
     private String descripcion;
     @Column(name = "descripcion_larga")
     private String descripcionLarga;
+    // string to json (como? con gson)
+    @Type(type = "json")
     private String payload;
     @Column(name = "payload_simple")
     private String payloadSimple;

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import ar.com.ada.api.cursos.entities.*;
-import ar.com.ada.api.cursos.models.request.CategoriaModifRequest;
 import ar.com.ada.api.cursos.repos.CategoriaRepository;
 import java.util.*;
 

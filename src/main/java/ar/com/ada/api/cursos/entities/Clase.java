@@ -20,7 +20,7 @@ public class Clase {
     private Curso curso;
     private String titulo;
     @Column(name = "duracion_horas")
-    private Integer duracionHoras;
+    private Integer duracionHoras = 2;
     @OneToMany(mappedBy = "clase", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Contenido> contenidos = new ArrayList<>();;

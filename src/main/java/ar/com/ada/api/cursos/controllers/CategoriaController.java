@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ar.com.ada.api.cursos.entities.*;
-import ar.com.ada.api.cursos.models.request.CategoriaModifRequest;
+import ar.com.ada.api.cursos.models.request.CategoriaRequest;
 import ar.com.ada.api.cursos.models.response.CategoriaResponse;
 import ar.com.ada.api.cursos.models.response.GenericResponse;
 import ar.com.ada.api.cursos.services.*;
@@ -24,14 +24,17 @@ public class CategoriaController {
     // Post: que recibimos algo, que nos permite instanciar una Categoria y ponerle
     // datos.
     @PostMapping("/api/categorias")
-    public ResponseEntity<GenericResponse> crearCategoria(@RequestBody Categoria categoria) {
+    public ResponseEntity<GenericResponse> crearCategoria(@RequestBody CategoriaRequest cR) {
 
-        categoriaService.crearCategoria(categoria);
+        Categoria categoriaCreada = categoriaService.crearCategoria(cR.nombre, cR.descripcion);
+
+        if (categoriaCreada == null)
+            return ResponseEntity.badRequest().build();
 
         GenericResponse r = new GenericResponse();
         r.isOk = true;
         r.message = "Categoria Creada con exito";
-        r.id = categoria.getCategoriaId();
+        r.id = categoriaCreada.getCategoriaId();
 
         // Aca vamos a usar Ok
         // Cuando se crea, generalmetnte para los puristas, se usa el
@@ -42,7 +45,7 @@ public class CategoriaController {
 
     @PutMapping(("/api/categorias/{id}"))
     ResponseEntity<GenericResponse> actualizarCategoriaPorId(@PathVariable Integer id,
-            @RequestBody CategoriaModifRequest cMR) {
+            @RequestBody CategoriaRequest cMR) {
         Categoria categoria = categoriaService.buscarPorId(id);
         if (categoria == null) {
             return ResponseEntity.notFound().build();
@@ -82,7 +85,6 @@ public class CategoriaController {
             cR.nombre = c.getNombre();
             cR.descripcion = c.getDescripcion();
             cR.categoriaId = c.getCategoriaId();
-            cR.cursosLista = c.getCursos();
             listaCategoriasResponse.add(cR);
         }
         return ResponseEntity.ok(listaCategoriasResponse);

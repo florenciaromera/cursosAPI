@@ -22,18 +22,18 @@ public class Curso {
     @ManyToMany(mappedBy = "cursosQueDicta")
     private List<Docente> docentes = new ArrayList<>();;
     @ManyToMany(mappedBy = "cursosQueAsiste")
-    private List<Estudiante> estudiantes = new ArrayList<>();;
+    private List<Estudiante> estudiantes = new ArrayList<>();
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Clase> clases;
     @ManyToMany(mappedBy = "cursos")
-    @JsonIgnore
     private List<Categoria> categorias = new ArrayList<>();
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Inscripcion> inscripciones = new ArrayList<>();;
     @Column(name = "duracion_horas")
     private Integer duracionHoras;
+    // private String uuid;
 
     public Integer getCursoId() {
         return cursoId;
