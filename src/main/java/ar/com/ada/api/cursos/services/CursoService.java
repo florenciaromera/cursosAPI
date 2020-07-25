@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.com.ada.api.cursos.entities.Curso;
-import ar.com.ada.api.cursos.models.request.CursoRequest;
 import ar.com.ada.api.cursos.repos.CursoRepository;
 
 @Service

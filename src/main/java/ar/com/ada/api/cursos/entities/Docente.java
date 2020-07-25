@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "docente")
 public class Docente extends Persona {
@@ -13,8 +15,10 @@ public class Docente extends Persona {
     private Integer docenteId;
     @ManyToMany
     @JoinTable(name = "docente_x_curso", joinColumns = @JoinColumn(name = "docente_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
+    @JsonIgnore
     private List<Curso> cursosQueDicta = new ArrayList<>();
     @OneToOne(mappedBy = "docente")
+    @JsonIgnore
     private Usuario usuario;
 
     public Integer getDocenteId() {
