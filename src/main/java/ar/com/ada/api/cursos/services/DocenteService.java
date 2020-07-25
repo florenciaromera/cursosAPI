@@ -17,7 +17,7 @@ public class DocenteService {
     DocenteRepository docenteRepository;
 
     public boolean crearDocente(Docente docente) {
-        if (docenteRepository.existsDocente(docente.getPaisId(), docente.getTipoDocumentoId(), docente.getDocumento()))
+        if (docenteRepository.existsDocente(docente.getPaisId().getValue(), docente.getTipoDocumentoId().getValue(), docente.getDocumento()))
             return false;
         docenteRepository.save(docente);
         return true;
