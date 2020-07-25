@@ -57,7 +57,6 @@ public class CategoriaController {
         r.message = "Categoria actualizada con éxito";
         r.id = categoriaActualizada.getCategoriaId();
 
-
         return ResponseEntity.ok(r);
     }
 
@@ -73,16 +72,16 @@ public class CategoriaController {
     }
 
     @GetMapping("/api/categorias")
-    ResponseEntity<List<CategoriaResponse>> listarCategorias() {
+    ResponseEntity<List<Categoria>> listarCategorias() {
         List<Categoria> listaCategorias = categoriaService.listarTodas();
-        List<CategoriaResponse> listaCategoriasResponse = new ArrayList<CategoriaResponse>();
-        for (Categoria c : listaCategorias) {
-            CategoriaResponse cR = new CategoriaResponse();
-            cR.nombre = c.getNombre();
-            cR.descripcion = c.getDescripcion();
-            listaCategoriasResponse.add(cR);
-        }
-        return ResponseEntity.ok(listaCategoriasResponse);
-    }
 
+        /*
+         * List<CategoriaResponse> listaCategoriasResponse = new
+         * ArrayList<CategoriaResponse>(); for (Categoria c : listaCategorias) {
+         * CategoriaResponse cR = new CategoriaResponse(); cR.nombre = c.getNombre();
+         * cR.descripcion = c.getDescripcion(); listaCategoriasResponse.add(cR); }
+         * return ResponseEntity.ok(listaCategoriasResponse);
+         */
+        return ResponseEntity.ok(listaCategorias);
+    }
 }
