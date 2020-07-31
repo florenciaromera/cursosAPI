@@ -79,7 +79,7 @@ public class CursoController {
   // /api/cursos/25/docentes: este prepresentaria al id del curso.
   @PostMapping("/api/cursos/{cursoId}/docentes")
   public ResponseEntity<GenericResponse> asignarDocente(@PathVariable Integer cursoId,
-      @RequestBody CursoAsigDocRequest cADR) {
+      @RequestBody CursoAsigDocRequest cADR) throws Exception {
     GenericResponse gR = new GenericResponse();
     if (cursoService.asignarDocente(cursoId, cADR.docenteId)) {
 

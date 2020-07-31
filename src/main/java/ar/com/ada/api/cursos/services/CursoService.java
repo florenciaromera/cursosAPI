@@ -57,49 +57,42 @@ public class CursoService {
 
     public List<Curso> listaCursosSinDocentes() {
 
-        List<Curso> listaCursosSinDoc = new ArrayList<>();
-        for (Curso curso : listaCursos()) {
-            if (curso.getDocentes().isEmpty()) {
-                listaCursosSinDoc.add(curso);
-            }
-        }
-        return listaCursosSinDoc;
+        // List<Curso> listaCursosSinDoc = new ArrayList<>();
+        // for (Curso curso : listaCursos()) {
+        // if (curso.getDocentes().isEmpty()) {
+        // listaCursosSinDoc.add(curso);
+        // }
+        // }
+        return cursoRepository.listaCursosSinDocentes();
 
     }
 
-    public Curso buscarPorId(Integer id) {
+    // public Curso buscarPorId(Integer id) {
+    // Optional<Curso> opCurso = cursoRepository.findById(id);
+
+    // if (opCurso.isPresent())
+    // return opCurso.get();
+    // else
+    // return null;
+
+    // }
+
+    public Curso buscarPorId(Integer id) throws Exception {
         Optional<Curso> opCurso = cursoRepository.findById(id);
-
-        if (opCurso.isPresent())
-            return opCurso.get();
-        else
-            return null;
-
+        if (!opCurso.isPresent()) {
+            throw new Exception("El curso no con id " + id + " no existe");
+        }
+        return opCurso.get();
     }
 
-    public boolean asignarDocente(Integer cursoId, Integer docenteId) {
+    public boolean asignarDocente(Integer cursoId, Integer docenteId) throws Exception {
         Curso curso = buscarPorId(cursoId);
 
-        // Iteramos la lista de docentes que tiene el curso
-
-        // CURSO : d1, d2, d3, d4
-        // buscar el docente 3
-        // primer vuelta, curso -> d1, d2, d3, d4, d3(si en el else agrego, ocurre este
-        // error)
-        for (Docente d : curso.getDocentes()) {
-            if (d.getDocenteId().equals(docenteId))
-                return false; // Si lo encuentra no hay que hacer nadas
-            // Hay que terminar de recorrer.
+        boolean estaEnLaLista = curso.getDocentes().stream().anyMatch(d -> d.getDocenteId().equals(docenteId));
+        if (!estaEnLaLista) {
+            curso.asignarDocente(docenteService.buscarPorId(docenteId));
+            cursoRepository.save(curso);
         }
-
-        // Asigno al docente usando el metodo asignarDocente
-        // Que habiamos creado para la relacion bidireccional
-        curso.asignarDocente(docenteService.buscarPorId(docenteId));
-
-        // Actualizo el curso en la base de datos
-        // dejo que el repositorio haga su magia(y cruzamos los dedos)
-        cursoRepository.save(curso);
-
-        return true;
+        return !estaEnLaLista;
     }
 }
