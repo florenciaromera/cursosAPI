@@ -80,7 +80,7 @@ public class CursoService {
     public Curso buscarPorId(Integer id) throws Exception {
         Optional<Curso> opCurso = cursoRepository.findById(id);
         if (!opCurso.isPresent()) {
-            throw new Exception("El curso no con id " + id + " no existe");
+            throw new Exception("El curso con id " + id + " no existe");
         }
         return opCurso.get();
     }

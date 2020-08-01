@@ -77,6 +77,9 @@ public class CursoController {
   // - Asignar Docente a un curso.
   // /api/cursos/docentes/25 : este representaria al id del docente
   // /api/cursos/25/docentes: este prepresentaria al id del curso.
+  // podemos usar este metodo para asignar y dar de baja docente, usando los
+  // mismos parámetros
+  // se cambia el nombre altaBajaDocente (lo mismo se puede hacer en estudiante)
   @PostMapping("/api/cursos/{cursoId}/docentes")
   public ResponseEntity<GenericResponse> asignarDocente(@PathVariable Integer cursoId,
       @RequestBody CursoAsigDocRequest cADR) throws Exception {
