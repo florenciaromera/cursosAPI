@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import ar.com.ada.api.cursos.entities.Curso;
 import ar.com.ada.api.cursos.entities.Docente;
+import ar.com.ada.api.cursos.entities.Estudiante;
 import ar.com.ada.api.cursos.repos.CursoRepository;
 
 @Service
@@ -50,31 +51,30 @@ public class CursoService {
     }
 
     public List<Curso> listaCursos() {
-
         return cursoRepository.findAll();
-
     }
 
     public List<Curso> listaCursosSinDocentes() {
-
-        // List<Curso> listaCursosSinDoc = new ArrayList<>();
-        // for (Curso curso : listaCursos()) {
-        // if (curso.getDocentes().isEmpty()) {
-        // listaCursosSinDoc.add(curso);
-        // }
-        // }
         return cursoRepository.listaCursosSinDocentes();
 
     }
 
-    // public Curso buscarPorId(Integer id) {
-    // Optional<Curso> opCurso = cursoRepository.findById(id);
+    public List<Curso> listaCursosDisponibles(Estudiante estudiante) {
+        List<Curso> listaCursosDisponibles = new ArrayList<>();
+        for (Curso curso : listaCursos()) {
+            boolean anotado = curso.getEstudiantes().stream()
+                    .anyMatch(e -> e.getEstudianteId().equals(estudiante.getEstudianteId()));
+            if (!anotado) {
+                listaCursosDisponibles.add(curso);
+            }
+        }
 
-    // if (opCurso.isPresent())
-    // return opCurso.get();
-    // else
-    // return null;
+        return listaCursosDisponibles;
+    }
 
+    // public List<Curso> listaCursosDisponibles(Estudiante estudiante) {
+    // return
+    // cursoRepository.listaCursoDisponibleByEstudianteId(estudiante.getEstudianteId().intValue());
     // }
 
     public Curso buscarPorId(Integer id) throws Exception {
@@ -87,7 +87,6 @@ public class CursoService {
 
     public boolean asignarDocente(Integer cursoId, Integer docenteId) throws Exception {
         Curso curso = buscarPorId(cursoId);
-
         boolean estaEnLaLista = curso.getDocentes().stream().anyMatch(d -> d.getDocenteId().equals(docenteId));
         if (!estaEnLaLista) {
             curso.asignarDocente(docenteService.buscarPorId(docenteId));

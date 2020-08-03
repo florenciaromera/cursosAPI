@@ -29,7 +29,7 @@ public class EstudianteService {
     }
 
     public Estudiante crearEstudiante(String nombre, PaisEnum paisEnum, TipoDocuEnum TipoDocuEnum, String documento,
-            Date fechaNacimiento) {
+            Date fechaNacimiento) throws Exception {
         Estudiante estudiante = new Estudiante();
         estudiante.setNombre(nombre);
         estudiante.setPaisId(paisEnum);
@@ -37,10 +37,10 @@ public class EstudianteService {
         estudiante.setDocumento(documento);
         estudiante.setFechaNacimiento(fechaNacimiento);
         boolean estudianteCreado = crearEstudiante(estudiante);
-        if (estudianteCreado)
-            return estudiante;
+        if (!estudianteCreado)
+            throw new Exception("El estudiante ya existe");
         else
-            return null;
+            return estudiante;
     }
 
     public Estudiante buscarPorId(Integer id) throws Exception {

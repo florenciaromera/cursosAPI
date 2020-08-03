@@ -15,4 +15,6 @@ public interface CursoRepository extends JpaRepository<Curso, Integer> {
     @Query("select c from Curso c where c.docentes is empty")
     List<Curso> listaCursosSinDocentes();
 
+    // @Query("select c from Curso c where c.estudiantes !=:id")
+    // List<Curso> listaCursoDisponibleByEstudianteId(int id);
 }
