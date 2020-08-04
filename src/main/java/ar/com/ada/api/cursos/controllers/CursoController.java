@@ -1,11 +1,13 @@
 package ar.com.ada.api.cursos.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import ar.com.ada.api.cursos.models.request.CursoAsigDocRequest;
 import ar.com.ada.api.cursos.models.request.CursoRequest;
@@ -71,15 +73,14 @@ public class CursoController {
   @PostMapping("/api/cursos/{cursoId}/docentes")
   public ResponseEntity<GenericResponse> asignarDocente(@PathVariable Integer cursoId,
       @RequestBody CursoAsigDocRequest cADR) throws Exception {
-    GenericResponse gR = new GenericResponse();
-    if (cursoService.altaBajaDocente(cursoId, cADR.docenteId, cADR.accion)) {
+    try {
+      GenericResponse gR = new GenericResponse();
+      cursoService.altaBajaDocente(cursoId, cADR.docenteId, cADR.accion);
       gR.isOk = true;
       gR.message = "El docente ha sido dado de " + cADR.accion + " del curso";
       return ResponseEntity.ok(gR);
+    } catch (Exception exc) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se pudo realizar la accion " + cADR.accion);
     }
-    gR.isOk = false;
-    gR.message = "El Docente no pudo ser asignado.";
-    return ResponseEntity.badRequest().body(gR);
   }
-
 }

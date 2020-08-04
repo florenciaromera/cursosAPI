@@ -85,15 +85,13 @@ public class CursoService {
         return opCurso.get();
     }
 
-    public boolean altaBajaDocente(Integer cursoId, Integer docenteId, String accion) throws Exception {
+    public void altaBajaDocente(Integer cursoId, Integer docenteId, String accion) throws Exception {
         Curso curso = buscarPorId(cursoId);
         boolean estaEnLaLista = curso.getDocentes().stream().anyMatch(d -> d.getDocenteId().equals(docenteId));
         if (!estaEnLaLista && accion.equalsIgnoreCase("Alta")) {
             altaDocente(curso, docenteId);
-            return true;
         } else if (estaEnLaLista && accion.equalsIgnoreCase("Baja")) {
             bajaDocente(curso, docenteId);
-            return true;
         } else {
             String mensaje = estaEnLaLista ? "El docente ya existe en el curso" : "El docente no existe en el curso";
             throw new Exception(mensaje);
