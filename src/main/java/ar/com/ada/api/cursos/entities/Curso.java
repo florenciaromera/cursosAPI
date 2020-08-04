@@ -101,6 +101,11 @@ public class Curso {
         docente.getCursosQueDicta().add(this);
     }
 
+    public void bajarDocente(Docente docente) {
+        this.docentes.remove(docente);
+        docente.getCursosQueDicta().remove(this);
+    }
+
     public void asignarEstudiante(Estudiante estudiante) {
         // this refiere a la instancia de la clase cursos actualmente ejecutando el
         // codigo(el metodo asignar estudiante)

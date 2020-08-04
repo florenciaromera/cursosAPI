@@ -85,13 +85,30 @@ public class CursoService {
         return opCurso.get();
     }
 
-    public boolean asignarDocente(Integer cursoId, Integer docenteId) throws Exception {
+    public boolean altaBajaDocente(Integer cursoId, Integer docenteId, String accion) throws Exception {
         Curso curso = buscarPorId(cursoId);
         boolean estaEnLaLista = curso.getDocentes().stream().anyMatch(d -> d.getDocenteId().equals(docenteId));
-        if (!estaEnLaLista) {
-            curso.asignarDocente(docenteService.buscarPorId(docenteId));
-            cursoRepository.save(curso);
+        if (!estaEnLaLista && accion.equalsIgnoreCase("Alta")) {
+            altaDocente(curso, docenteId);
+            return true;
+        } else if (estaEnLaLista && accion.equalsIgnoreCase("Baja")) {
+            bajaDocente(curso, docenteId);
+            return true;
+        } else {
+            String mensaje = estaEnLaLista ? "El docente ya existe en el curso" : "El docente no existe en el curso";
+            throw new Exception(mensaje);
         }
-        return !estaEnLaLista;
+
+    }
+
+    public void altaDocente(Curso curso, Integer docenteId) throws Exception {
+        curso.asignarDocente(docenteService.buscarPorId(docenteId));
+        cursoRepository.save(curso);
+    }
+
+    public void bajaDocente(Curso curso, Integer docenteId) {
+        Docente docente = docenteService.buscarPorId(docenteId);
+        curso.bajarDocente(docente);
+        cursoRepository.save(curso);
     }
 }

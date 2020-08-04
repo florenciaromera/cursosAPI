@@ -40,19 +40,7 @@ public class CursoController {
     gR.id = cursoCreado.getCursoId();
     return ResponseEntity.ok(gR);
 
-    // GenericResponse gR = new GenericResponse();
-    // return ResponseEntity.ok(gR);
   }
-  // y=f(x)=x+2
-  // f(int x ) { return x + 2;}
-  // f(5)=5+2
-
-  // cursoService.crearCurso(cursoReq.nombre)
-  // z = f(x, y) = y + x * 2
-  // declarar
-  // f(int x, int y) { return y + x * 2}
-  // llamar a una fucion
-  // f(3,5) = 5 + 3 * 2 = 11
 
   // sin filtro: /api/cursos
   // con filtro sin docentes: /api/cursos?sinDocentes=true
@@ -84,16 +72,14 @@ public class CursoController {
   public ResponseEntity<GenericResponse> asignarDocente(@PathVariable Integer cursoId,
       @RequestBody CursoAsigDocRequest cADR) throws Exception {
     GenericResponse gR = new GenericResponse();
-    if (cursoService.asignarDocente(cursoId, cADR.docenteId)) {
-
+    if (cursoService.altaBajaDocente(cursoId, cADR.docenteId, cADR.accion)) {
       gR.isOk = true;
-      gR.message = "Docente asignado con éxito al Curso";
+      gR.message = "El docente ha sido dado de " + cADR.accion + " del curso";
       return ResponseEntity.ok(gR);
     }
     gR.isOk = false;
     gR.message = "El Docente no pudo ser asignado.";
     return ResponseEntity.badRequest().body(gR);
-
   }
 
 }
