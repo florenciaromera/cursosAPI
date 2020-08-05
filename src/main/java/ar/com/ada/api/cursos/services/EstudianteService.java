@@ -21,8 +21,8 @@ public class EstudianteService {
     CursoService cursoService;
 
     public boolean crearEstudiante(Estudiante estudiante) {
-        if (estudianteRepository.existsEstudiante(estudiante.getPaisId().getValue(),
-                estudiante.getTipoDocumentoId().getValue(), estudiante.getDocumento()))
+        if (estudianteRepository.existsEstudiante(estudiante.getPaisId(), estudiante.getTipoDocumentoId().getValue(),
+                estudiante.getDocumento()))
             return false;
         estudianteRepository.save(estudiante);
         return true;
@@ -62,8 +62,8 @@ public class EstudianteService {
 
     public boolean estudianteExiste(Estudiante estudiante) {
 
-        if (estudianteRepository.existsEstudiante(estudiante.getPaisId().getValue(),
-                estudiante.getTipoDocumentoId().getValue(), estudiante.getDocumento()))
+        if (estudianteRepository.existsEstudiante(estudiante.getPaisId(), estudiante.getTipoDocumentoId().getValue(),
+                estudiante.getDocumento()))
             return true;
         else
             return false;

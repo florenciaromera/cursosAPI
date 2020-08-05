@@ -2,12 +2,9 @@ package ar.com.ada.api.cursos.repos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import ar.com.ada.api.cursos.entities.Docente;
-import ar.com.ada.api.cursos.entities.Pais.PaisEnum;
-import ar.com.ada.api.cursos.entities.Pais.TipoDocuEnum;
 
 @Repository
 public interface DocenteRepository extends JpaRepository<Docente, Integer> {
