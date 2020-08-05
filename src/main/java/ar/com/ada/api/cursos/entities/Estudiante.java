@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "estudiante")
 public class Estudiante extends Persona {
@@ -14,7 +16,8 @@ public class Estudiante extends Persona {
     @ManyToMany
     @JoinTable(name = "estudiante_x_curso", joinColumns = @JoinColumn(name = "estudiante_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
     private List<Curso> cursosQueAsiste = new ArrayList<>();
-    @OneToOne(mappedBy = "estudiante") // nombre del atributo en el obj usuario
+    @JsonIgnore
+    @OneToOne(mappedBy = "estudiante", cascade = CascadeType.ALL) // nombre del atributo en el obj usuario
     private Usuario usuario;
 
     public Integer getEstudianteId() {
@@ -39,5 +42,6 @@ public class Estudiante extends Persona {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+        usuario.setEstudiante(this);
     }
 }

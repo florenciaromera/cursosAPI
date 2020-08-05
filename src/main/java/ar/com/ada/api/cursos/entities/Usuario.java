@@ -20,7 +20,7 @@ public class Usuario {
     @Column(name = "fecha_login")
     private Date fechaLogin;
     @Column(name = "tipo_usuario_id")
-    private TipoUsuarioEnum tipoUsuarioId;
+    private int tipoUsuarioId;
     @OneToOne
     @JoinColumn(name = "estudiante_id", referencedColumnName = "estudiante_id")
     private Estudiante estudiante;
@@ -55,5 +55,92 @@ public class Usuario {
             }
             return status;
         }
+    }
+
+    public Integer getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Integer usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getFechaLogin() {
+        return fechaLogin;
+    }
+
+    public void setFechaLogin(Date fechaLogin) {
+        this.fechaLogin = fechaLogin;
+    }
+
+    public TipoUsuarioEnum getTipoUsuarioId() {
+        return TipoUsuarioEnum.parse(this.tipoUsuarioId);
+    }
+
+    public void setTipoUsuarioId(TipoUsuarioEnum tipoUsuarioId) {
+        this.tipoUsuarioId = tipoUsuarioId.getValue();
+    }
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
+
+    public Docente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(Docente docente) {
+        this.docente = docente;
+    }
+
+    public List<Inscripcion> getInscripciones() {
+        return inscripciones;
+    }
+
+    public void setInscripciones(List<Inscripcion> inscripciones) {
+        this.inscripciones = inscripciones;
+    }
+
+    public Integer obtenerEntityId() {
+        // TODO, segun el tipo de usuario, devolver el docenteId o estudianteId o nada!
+
+        switch (this.getTipoUsuarioId()) {
+            case ESTUDIANTE:
+                return this.getEstudiante().getEstudianteId();
+            case DOCENTE:
+                return this.getDocente().getDocenteId();
+
+            default:
+                break;
+        }
+        return null;
     }
 }
