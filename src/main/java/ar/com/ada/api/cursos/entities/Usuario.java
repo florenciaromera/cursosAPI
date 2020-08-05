@@ -20,7 +20,7 @@ public class Usuario {
     @Column(name = "fecha_login")
     private Date fechaLogin;
     @Column(name = "tipo_usuario_id")
-    private TipoUsuarioEnum tipoUsuarioId;
+    private int tipoUsuarioId;
     @OneToOne
     @JoinColumn(name = "estudiante_id", referencedColumnName = "estudiante_id")
     private Estudiante estudiante;
@@ -98,11 +98,11 @@ public class Usuario {
     }
 
     public TipoUsuarioEnum getTipoUsuarioId() {
-        return tipoUsuarioId;
+        return TipoUsuarioEnum.parse(this.tipoUsuarioId);
     }
 
     public void setTipoUsuarioId(TipoUsuarioEnum tipoUsuarioId) {
-        this.tipoUsuarioId = tipoUsuarioId;
+        this.tipoUsuarioId = tipoUsuarioId.getValue();
     }
 
     public Estudiante getEstudiante() {
@@ -143,5 +143,4 @@ public class Usuario {
         }
         return null;
     }
-
 }
