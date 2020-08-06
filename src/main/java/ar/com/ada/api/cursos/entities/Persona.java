@@ -36,10 +36,6 @@ public class Persona {
         this.paisId = paisId;
     }
 
-    public void setPaisId(PaisEnum paisId) {
-        this.paisId = paisId.getValue();
-    }
-
     public TipoDocuEnum getTipoDocumentoId() {
         return TipoDocuEnum.parse(this.tipoDocumentoId);
     }

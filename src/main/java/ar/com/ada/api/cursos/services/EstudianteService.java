@@ -31,7 +31,7 @@ public class EstudianteService {
             Date fechaNacimiento) throws Exception {
         Estudiante estudiante = new Estudiante();
         estudiante.setNombre(nombre);
-        estudiante.setPaisId(paisEnum);
+        estudiante.setPaisId(paisEnum.getValue());
         estudiante.setTipoDocumentoId(TipoDocuEnum);
         estudiante.setDocumento(documento);
         estudiante.setFechaNacimiento(fechaNacimiento);
