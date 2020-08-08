@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import ar.com.ada.api.cursos.entities.*;
 import ar.com.ada.api.cursos.models.request.InscripcionRequest;
+import ar.com.ada.api.cursos.models.response.CursoEstudianteResponse;
+import ar.com.ada.api.cursos.models.response.DocenteSimplificadoResponse;
 import ar.com.ada.api.cursos.models.response.GenericResponse;
 import ar.com.ada.api.cursos.services.*;
 
@@ -37,21 +39,24 @@ public class EstudianteController {
         return ResponseEntity.ok(r);
     }
 
-    // @PostMapping("/api/estuadintes/{id}/inscripciones")
-    // ResponseEntity<GenericResponse> inscribir(@PathVariable Integer estudianteId,
-    // @RequestBody InscripcionRequest iR) {
-    // GenericResponse gR = new GenericResponse();
-    // Inscripcion inscripcionCreada = estudianteService.inscribir(estudianteId,
-    // iR.cursoId);
-    // if (inscripcionCreada == null) {
-    // gR.isOk = false;
-    // gR.message = "La inscripcion no pudo ser realizada";
-    // }
-    // gR.isOk = true;
-    // gR.message = "La inscripcion fue realizada con exito";
-    // gR.id = inscripcionCreada.getInscripcionId();
-    // return ResponseEntity.ok(gR);
-    // }
+    @PostMapping("/api/estudiantes/{id}/inscripciones")
+    public ResponseEntity<GenericResponse> inscribir(@PathVariable Integer id, @RequestBody InscripcionRequest iR)
+            throws Exception {
+
+        Inscripcion inscripcionCreada = estudianteService.inscribir(id, iR.cursoId);
+        GenericResponse gR = new GenericResponse();
+        if (inscripcionCreada == null) {
+            gR.isOk = false;
+            gR.message = "La inscripcion no pudo ser realizada";
+            return ResponseEntity.badRequest().body(gR);
+        } else {
+            gR.isOk = true;
+            gR.message = "La inscripcion se realizo con exito";
+            gR.id = inscripcionCreada.getInscripcionId();
+            return ResponseEntity.ok(gR);
+        }
+
+    }
 
     @GetMapping("/api/estudiantes/{id}")
     ResponseEntity<Estudiante> buscarPorIdEstudiante(@PathVariable Integer id) throws Exception {
@@ -87,7 +92,7 @@ public class EstudianteController {
      * este caso es un metodo separado
      */
     @GetMapping("/api/estudiantes/{id}/cursos")
-    public ResponseEntity<List<Curso>> listaCursos(@PathVariable Integer id,
+    public ResponseEntity<List<CursoEstudianteResponse>> listaCursos(@PathVariable Integer id,
             @RequestParam(value = "disponibles", required = false) boolean disponibles) throws Exception {
         List<Curso> listaCursos = new ArrayList<>();
         Estudiante estudiante = estudianteService.buscarPorId(id);
@@ -97,6 +102,25 @@ public class EstudianteController {
         } else {
             listaCursos = estudiante.getCursosQueAsiste();
         }
-        return ResponseEntity.ok(listaCursos);
+        List<CursoEstudianteResponse> listaSimplificada = new ArrayList<>();
+        for (Curso c : listaCursos) {
+            CursoEstudianteResponse nuevoCurso = new CursoEstudianteResponse();
+            nuevoCurso.cursoId = c.getCursoId();
+            nuevoCurso.nombre = c.getNombre();
+            nuevoCurso.descripcion = c.getDescripcion();
+            nuevoCurso.duracionHoras = c.getDuracionHoras();
+            nuevoCurso.categorias = c.getCategorias();
+
+            for (Docente d : c.getDocentes()) {
+                DocenteSimplificadoResponse dr = new DocenteSimplificadoResponse();
+                dr.docenteId = d.getDocenteId();
+                dr.nombre = d.getNombre();
+                nuevoCurso.docentes.add(dr);
+            }
+
+            listaSimplificada.add(nuevoCurso);
+        }
+
+        return ResponseEntity.ok(listaSimplificada);
     }
 }

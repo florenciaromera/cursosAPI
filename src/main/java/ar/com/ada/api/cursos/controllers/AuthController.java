@@ -71,13 +71,6 @@ public class AuthController {
 
         // Cambio para que devuelva el full perfil
         // Usuario u = usuarioService.buscarPorUsername(authenticationRequest.username);
-        // Usuario u = usuarioService.buscarPorUsername(authenticationRequest.username);
-        // Usuario u = usuarioService.buscarPorUsername(authenticationRequest.username);
-        // Usuario u = usuarioService.buscarPorUsername(authenticationRequest.username);
-        // Usuario u = usuarioService.buscarPorUsername(authenticationRequest.username);
-        // Usuario u = usuarioService.buscarPorUsername(authenticationRequest.username);
-        // Usuario u = usuarioService.buscarPorUsername(authenticationRequest.username);
-        // Usuario u = usuarioService.buscarPorUsername(authenticationRequest.username);
 
         LoginResponse r = new LoginResponse();
         r.id = usuarioLogueado.getUsuarioId();

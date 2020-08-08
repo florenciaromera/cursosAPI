@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.com.ada.api.cursos.entities.*;
+import ar.com.ada.api.cursos.entities.Inscripcion.EstadoInscripcionEnum;
 import ar.com.ada.api.cursos.entities.Pais.PaisEnum;
 import ar.com.ada.api.cursos.entities.Pais.TipoDocuEnum;
 import ar.com.ada.api.cursos.repos.*;
@@ -69,28 +70,28 @@ public class EstudianteService {
 
     }
 
-    // public Inscripcion inscribir(Integer estudianteId, Integer cursoId) {
-    // // TODO: buscar estudiante x id
-    // // buscar curso x id
-    // // crear la inscripcion (aprobada por default)
-    // // asignar la inscripcion al usuario del estudiante
-    // // agregar al estudiante a la lista de estudiantes que tiene Curso
+    public Inscripcion inscribir(Integer estudianteId, Integer cursoId) throws Exception {
+        // TODO: buscar estudiante x id
+        // buscar curso x id
+        // crear la inscripcion (aprobada por default)
+        // asignar la inscripcion al usuario del estudiante
+        // agregar al estudiante a la lista de estudiantes que tiene Curso
 
-    // Estudiante estudiante = buscarPorId(estudianteId);
-    // Curso curso = cursoService.buscarPorId(cursoId);
-    // Inscripcion inscripcion = new Inscripcion();
+        Estudiante estudiante = buscarPorId(estudianteId);
+        Curso curso = cursoService.buscarPorId(cursoId);
+        Inscripcion inscripcion = new Inscripcion();
 
-    // inscripcion.setFecha(new Date());
-    // inscripcion.setEstadoInscripcionEnum(EstadoInscripcionEnum.ACTIVO);
+        inscripcion.setFecha(new Date());
+        inscripcion.setEstadoInscripcionEnum(EstadoInscripcionEnum.ACTIVO);
 
-    // // inscripcion.setCurso(curso);
-    // inscripcion.setUsuario(estudiante.getUsuario());
+        // inscripcion.setCurso(curso);
+        inscripcion.setUsuario(estudiante.getUsuario());
 
-    // curso.agregarInscripcion(inscripcion);
-    // curso.asignarEstudiante(estudiante);
+        curso.agregarInscripcion(inscripcion);
+        curso.asignarEstudiante(estudiante);
 
-    // estudianteRepository.save(estudiante);
+        estudianteRepository.save(estudiante);
 
-    // return inscripcion;
-    // }
+        return inscripcion;
+    }
 }
