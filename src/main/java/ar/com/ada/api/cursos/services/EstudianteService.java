@@ -10,6 +10,7 @@ import ar.com.ada.api.cursos.entities.Inscripcion.EstadoInscripcionEnum;
 import ar.com.ada.api.cursos.entities.Pais.PaisEnum;
 import ar.com.ada.api.cursos.entities.Pais.TipoDocuEnum;
 import ar.com.ada.api.cursos.repos.*;
+import ar.com.ada.api.cursos.sistema.comm.EmailService;
 
 @Service
 public class EstudianteService {
@@ -19,6 +20,9 @@ public class EstudianteService {
 
     @Autowired
     CursoService cursoService;
+
+    @Autowired
+    EmailService emailService;
 
     public boolean crearEstudiante(Estudiante estudiante) {
         if (estudianteRepository.existsEstudiante(estudiante.getPaisId(), estudiante.getTipoDocumentoId().getValue(),
@@ -92,6 +96,8 @@ public class EstudianteService {
 
         estudianteRepository.save(estudiante);
 
+        emailService.SendEmail(estudiante.getUsuario().getEmail(), "Curso Pinturillo: inscripcion exitosa",
+                "Hola " + estudiante.getNombre() + ", te has registrado con exito al curso " + curso.getNombre());
         return inscripcion;
     }
 }

@@ -16,6 +16,7 @@ import ar.com.ada.api.cursos.entities.Pais.TipoDocuEnum;
 import ar.com.ada.api.cursos.entities.Usuario.TipoUsuarioEnum;
 import ar.com.ada.api.cursos.repos.UsuarioRepository;
 import ar.com.ada.api.cursos.security.Crypto;
+import ar.com.ada.api.cursos.sistema.comm.EmailService;
 
 @Service
 public class UsuarioService {
@@ -26,6 +27,8 @@ public class UsuarioService {
     EstudianteService estudianteService;
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    EmailService emailService;
 
     public Usuario buscarPorUsername(String username) {
         return usuarioRepository.findByUsername(username);
@@ -55,6 +58,7 @@ public class UsuarioService {
 
         Usuario usuario = new Usuario();
         usuario.setTipoUsuarioId(tipoUsuario);
+        usuario.setFullName(nombre);
         usuario.setUsername(email);
         usuario.setPassword(Crypto.encrypt(password, email.toLowerCase()));
         usuario.setEmail(email);
@@ -85,6 +89,9 @@ public class UsuarioService {
             default:
                 break;
         }
+        // aca enviamos email
+        emailService.SendEmail(usuario.getEmail(), "Cursos Pinturillo: te has registrado con exito!",
+                "Hola " + usuario.getFullName() + ", bienvenide al sistema de cursos");
         return usuario;
 
     }

@@ -73,14 +73,19 @@ public class CursoController {
   @PostMapping("/api/cursos/{cursoId}/docentes")
   public ResponseEntity<GenericResponse> asignarDocente(@PathVariable Integer cursoId,
       @RequestBody CursoAsigDocRequest cADR) throws Exception {
+
+    GenericResponse gR = new GenericResponse();
     try {
-      GenericResponse gR = new GenericResponse();
+
       cursoService.altaBajaDocente(cursoId, cADR.docenteId, cADR.accion);
       gR.isOk = true;
       gR.message = "El docente ha sido dado de " + cADR.accion + " del curso";
       return ResponseEntity.ok(gR);
     } catch (Exception exc) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se pudo realizar la accion " + cADR.accion);
+      gR.message = "No se pudo realizar la accion " + cADR.accion;
+      return ResponseEntity.badRequest().body(gR);
+      // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se pudo
+      // realizar la accion " + cADR.accion);
     }
   }
 }
