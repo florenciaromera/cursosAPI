@@ -87,7 +87,8 @@ public class UsuarioService {
         docenteService.crearDocente(docente);
         break;
 
-      default:
+      case STAFF :
+        usuarioRepository.save(usuario);
         break;
     }
 
