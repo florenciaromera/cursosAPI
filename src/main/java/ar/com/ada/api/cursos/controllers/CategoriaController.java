@@ -74,7 +74,7 @@ public class CategoriaController {
     // pero apunta a uno parecido(el de arriba es el principal authentication)
     // https://docs.spring.io/spring-security/site/docs/3.0.x/reference/el-access.html
     @PutMapping(("/api/categorias/{id}"))
-    @PreAuthorize("@usuarioService.buscarPorUsername(principal.getUserName()).getTipoUsuarioId().getValue() == 3") //En este caso quiero que sea STAFF(3)
+    @PreAuthorize("@usuarioService.buscarPorUsername(principal.getUsername()).getTipoUsuarioId().getValue() == 3") //En este caso quiero que sea STAFF(3)
     ResponseEntity<GenericResponse> actualizarCategoriaPorId(@PathVariable Integer id,
             @RequestBody CategoriaModifRequest cMR) {
         Categoria categoria = categoriaService.buscarPorId(id);
