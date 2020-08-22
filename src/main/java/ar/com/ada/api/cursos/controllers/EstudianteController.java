@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import ar.com.ada.api.cursos.entities.*;
@@ -12,6 +13,7 @@ import ar.com.ada.api.cursos.models.request.InscripcionRequest;
 import ar.com.ada.api.cursos.models.response.CursoEstudianteResponse;
 import ar.com.ada.api.cursos.models.response.DocenteSimplificadoResponse;
 import ar.com.ada.api.cursos.models.response.GenericResponse;
+import ar.com.ada.api.cursos.security.controllersSecurity.ControllersSecurity;
 import ar.com.ada.api.cursos.services.*;
 
 @RestController
@@ -23,7 +25,11 @@ public class EstudianteController {
     @Autowired
     CursoService cursoService;
 
+    @Autowired
+    ControllersSecurity controllersSecurity;
+
     @PostMapping("/api/estudiantes")
+    @PreAuthorize("@controllersSecurity.isStaff(principal)")
     public ResponseEntity<GenericResponse> crearEstudiante(@RequestBody Estudiante estudiante) {
         GenericResponse r = new GenericResponse();
         if (estudianteService.estudianteExiste(estudiante)) {
@@ -40,6 +46,7 @@ public class EstudianteController {
     }
 
     @PostMapping("/api/estudiantes/{id}/inscripciones")
+    @PreAuthorize("@controllersSecurity.isEstudiante(principal)")
     public ResponseEntity<GenericResponse> inscribir(@PathVariable Integer id, @RequestBody InscripcionRequest iR)
             throws Exception {
 
@@ -59,6 +66,7 @@ public class EstudianteController {
     }
 
     @GetMapping("/api/estudiantes/{id}")
+    @PreAuthorize("@controllersSecurity.isEstudiante(principal, #id) or @controllersSecurity.isStaff(principal)")
     ResponseEntity<Estudiante> buscarPorIdEstudiante(@PathVariable Integer id) throws Exception {
         Estudiante estudiante = estudianteService.buscarPorId(id);
         if (estudiante == null)
@@ -70,6 +78,7 @@ public class EstudianteController {
     // metodo para admin, obtener todos los estudiantes y todos los estudiantes que
     // no tienen cursos
     @GetMapping("/api/estudiantes")
+    @PreAuthorize("@controllersSecurity.isStaff(principal)")
     ResponseEntity<List<Estudiante>> listarEstudiantes(
             @RequestParam(value = "sinCursos", required = false) boolean sinCursos) {
         List<Estudiante> listaEstudiantes = new ArrayList<>();

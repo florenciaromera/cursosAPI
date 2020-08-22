@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import ar.com.ada.api.cursos.entities.*;
 import ar.com.ada.api.cursos.models.response.GenericResponse;
+import ar.com.ada.api.cursos.security.controllersSecurity.ControllersSecurity;
 import ar.com.ada.api.cursos.services.*;
 
 @RestController
@@ -18,16 +20,20 @@ public class DocenteController {
     @Autowired
     DocenteService docenteService;
 
+    @Autowired
+    ControllersSecurity controllersSecurity;
+
     // Post: que recibimos algo, que nos permite instanciar una Categoria y ponerle
     // datos.
     @PostMapping("/api/docentes")
+    @PreAuthorize("@controllersSecurity.isStaff(principal)")
     public ResponseEntity<GenericResponse> crearDocente(@RequestBody Docente docente) {
 
         if (docenteService.docenteExiste(docente)) {
             GenericResponse rError = new GenericResponse();
             rError.isOk = false;
             rError.message = "Este docente ya existe";
-            
+
             return ResponseEntity.badRequest().body(rError);
         }
 
@@ -46,6 +52,7 @@ public class DocenteController {
     }
 
     @GetMapping("/api/docentes/{id}")
+    @PreAuthorize("@controllersSecurity.isStaff(principal) or @controllersSecurity.isStaff(principal)")
     ResponseEntity<Docente> buscarPorIdDocente(@PathVariable Integer id) {
         Docente docente = docenteService.buscarPorId(id);
         if (docente == null)
@@ -62,6 +69,7 @@ public class DocenteController {
     // }
 
     @GetMapping("/api/docentes")
+    @PreAuthorize("@controllersSecurity.isStaff(principal)")
     ResponseEntity<List<Docente>> listarDocentes() {
         List<Docente> listaDocentes = docenteService.listaDocentes();
         return ResponseEntity.ok(listaDocentes);
