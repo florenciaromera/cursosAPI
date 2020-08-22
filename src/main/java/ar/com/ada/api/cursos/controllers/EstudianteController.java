@@ -46,7 +46,7 @@ public class EstudianteController {
     }
 
     @PostMapping("/api/estudiantes/{id}/inscripciones")
-    @PreAuthorize("@controllersSecurity.isEstudiante(principal)")
+    @PreAuthorize("@controllersSecurity.isEstudiante(principal, #id)")
     public ResponseEntity<GenericResponse> inscribir(@PathVariable Integer id, @RequestBody InscripcionRequest iR)
             throws Exception {
 
@@ -78,7 +78,7 @@ public class EstudianteController {
     // metodo para admin, obtener todos los estudiantes y todos los estudiantes que
     // no tienen cursos
     @GetMapping("/api/estudiantes")
-    @PreAuthorize("@controllersSecurity.isStaff(principal)")
+    @PreAuthorize("@controllersSecurity.isStaff(principal) or @controllersSecurity.isDocente(principal, #id)")
     ResponseEntity<List<Estudiante>> listarEstudiantes(
             @RequestParam(value = "sinCursos", required = false) boolean sinCursos) {
         List<Estudiante> listaEstudiantes = new ArrayList<>();
@@ -101,6 +101,7 @@ public class EstudianteController {
      * este caso es un metodo separado
      */
     @GetMapping("/api/estudiantes/{id}/cursos")
+    @PreAuthorize("@controllersSecurity.isEstudiante(principal, #id)")
     public ResponseEntity<List<CursoEstudianteResponse>> listaCursos(@PathVariable Integer id,
             @RequestParam(value = "disponibles", required = false) boolean disponibles) throws Exception {
         List<Curso> listaCursos = new ArrayList<>();

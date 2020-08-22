@@ -52,7 +52,7 @@ public class DocenteController {
     }
 
     @GetMapping("/api/docentes/{id}")
-    @PreAuthorize("@controllersSecurity.isStaff(principal) or @controllersSecurity.isStaff(principal)")
+    @PreAuthorize("@controllersSecurity.isStaff(principal) or @controllersSecurity.isDocente(principal, #id)")
     ResponseEntity<Docente> buscarPorIdDocente(@PathVariable Integer id) {
         Docente docente = docenteService.buscarPorId(id);
         if (docente == null)
