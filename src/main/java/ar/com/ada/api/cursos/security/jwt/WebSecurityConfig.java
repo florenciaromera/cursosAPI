@@ -66,7 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 // no autenticar estos request particulares ya que pueden ingresar sin
                 // autenticacion
 
-                .authorizeRequests().antMatchers("/api/auth/*").permitAll().
+                .authorizeRequests().antMatchers("/api/auth/*").permitAll().and()
+                .authorizeRequests().antMatchers("/api/categorias").permitAll().
                 // .antMatchers("/auth/register").permitAll().
 
                 // todos los otros requests deben ser autenticados
