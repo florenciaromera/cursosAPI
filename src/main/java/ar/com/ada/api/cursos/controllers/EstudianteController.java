@@ -90,6 +90,7 @@ public class EstudianteController {
      * este caso es un metodo separado
      */
     @GetMapping("/api/estudiantes/{id}/cursos")
+    @PreAuthorize("hasAuthority('CLAIM_userType_STAFF') or (hasAuthority('CLAIM_userType_ESTUDIANTE') and hasAuthority('CLAIM_entityId_'+#id))")
     public ResponseEntity<List<CursoEstudianteResponse>> listaCursos(@PathVariable Integer id,
             @RequestParam(value = "disponibles", required = false) boolean disponibles) {
         List<Curso> listaCursos = new ArrayList<>();
