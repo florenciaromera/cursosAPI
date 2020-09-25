@@ -83,6 +83,8 @@ public class EstudianteService {
         // Asignar la inscripcion al Usuario del Estudiante
         // Agregar el Estudiante a la Lista de Estudiantes que tiene Curso
 
+        
+
         Estudiante estudiante = buscarPorId(estudianteId);
         Curso curso = cursoService.buscarPorId(cursoId);
         Inscripcion inscripcion = new Inscripcion();
