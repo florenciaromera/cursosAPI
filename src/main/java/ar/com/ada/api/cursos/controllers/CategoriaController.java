@@ -26,20 +26,11 @@ public class CategoriaController {
     @Autowired
     ControllersSecurity controllersSecurity;
 
-    // Post: que recibimos algo, que nos permite instanciar una Categoria y ponerle
-    // datos.
-
     @PostMapping("/api/categorias")
     @PreAuthorize("@controllersSecurity.isStaff(principal)")
     public ResponseEntity<GenericResponse> crearCategoria(@RequestBody Categoria categoria) {
         categoriaService.crearCategoria(categoria);
-
-        GenericResponse r = new GenericResponse();
-        r.isOk = true;
-        r.message = "Categoria Creada con exito";
-        r.id = categoria.getCategoriaId();
-
-        return ResponseEntity.ok(r);
+        return ResponseEntity.ok(new GenericResponse(true, "Categoria Creada con exito", categoria.getCategoriaId()));
 
     }
 

@@ -86,4 +86,8 @@ public class Inscripcion {
     public void setEstadoInscripcionEnum(EstadoInscripcionEnum estadoInscripcion) {
         this.estadoInscripcion = estadoInscripcion;
     }
+
+	public void setEstadoInscripcion(EstadoInscripcionEnum estadoInscripcion) {
+        this.estadoInscripcion = estadoInscripcion;
+    }
 }

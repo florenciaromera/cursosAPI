@@ -31,36 +31,23 @@ public class EstudianteController {
     @PostMapping("/api/estudiantes")
     @PreAuthorize("@controllersSecurity.isStaff(principal)")
     public ResponseEntity<GenericResponse> crearEstudiante(@RequestBody Estudiante estudiante) {
-        GenericResponse r = new GenericResponse();
         if (estudianteService.estudianteExiste(estudiante)) {
-            r.isOk = false;
-            r.message = "Este estudiante ya existe";
-            return ResponseEntity.badRequest().body(r);
+            return ResponseEntity.badRequest().body(new GenericResponse(false, "Este estudiante ya existe"));
         }
 
         estudianteService.crearEstudiante(estudiante);
-        r.isOk = true;
-        r.message = "Estudiante creada con exito";
-        r.id = estudiante.getEstudianteId();
-        return ResponseEntity.ok(r);
+        return ResponseEntity.ok(new GenericResponse(true, "Estudiante creada con éxito", estudiante.getEstudianteId()));
     }
 
     @PostMapping("/api/estudiantes/{id}/inscripciones")
     @PreAuthorize("@controllersSecurity.isEstudiante(principal, #id)")
     public ResponseEntity<GenericResponse> inscribir(@PathVariable Integer id, @RequestBody InscripcionRequest iR)
             throws Exception {
-
         Inscripcion inscripcionCreada = estudianteService.inscribir(id, iR.cursoId);
-        GenericResponse gR = new GenericResponse();
         if (inscripcionCreada == null) {
-            gR.isOk = false;
-            gR.message = "La inscripcion no pudo ser realizada";
-            return ResponseEntity.badRequest().body(gR);
+            return ResponseEntity.badRequest().body(new GenericResponse(false, "La inscripcion no pudo ser realizada"));
         } else {
-            gR.isOk = true;
-            gR.message = "La inscripcion se realizo con exito";
-            gR.id = inscripcionCreada.getInscripcionId();
-            return ResponseEntity.ok(gR);
+            return ResponseEntity.ok(new GenericResponse(true, "La inscripción se realizó con éxito", inscripcionCreada.getInscripcionId()));
         }
 
     }
@@ -107,30 +94,20 @@ public class EstudianteController {
         List<Curso> listaCursos = new ArrayList<>();
         Estudiante estudiante = estudianteService.buscarPorId(id);
         if (disponibles) {
-            // listaCursos = algo que nos devuelva la llista de cursos disponibles.
             listaCursos = cursoService.listaCursosDisponibles(estudiante);
         } else {
             listaCursos = estudiante.getCursosQueAsiste();
         }
+
         List<CursoEstudianteResponse> listaSimplificada = new ArrayList<>();
         for (Curso c : listaCursos) {
-            CursoEstudianteResponse nuevoCurso = new CursoEstudianteResponse();
-            nuevoCurso.cursoId = c.getCursoId();
-            nuevoCurso.nombre = c.getNombre();
-            nuevoCurso.descripcion = c.getDescripcion();
-            nuevoCurso.duracionHoras = c.getDuracionHoras();
-            nuevoCurso.categorias = c.getCategorias();
-
+            CursoEstudianteResponse nuevoCurso = new CursoEstudianteResponse(c.getCursoId(), c.getNombre(), c.getDescripcion(), c.getDuracionHoras(), c.getCategorias());
             for (Docente d : c.getDocentes()) {
-                DocenteSimplificadoResponse dr = new DocenteSimplificadoResponse();
-                dr.docenteId = d.getDocenteId();
-                dr.nombre = d.getNombre();
+                DocenteSimplificadoResponse dr = new DocenteSimplificadoResponse(d.getDocenteId(), d.getNombre());
                 nuevoCurso.docentes.add(dr);
             }
-
             listaSimplificada.add(nuevoCurso);
         }
-
         return ResponseEntity.ok(listaSimplificada);
     }
 }

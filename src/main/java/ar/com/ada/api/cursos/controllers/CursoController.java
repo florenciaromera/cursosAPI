@@ -37,15 +37,9 @@ public class CursoController {
     Curso cursoCreado = cursoService.crearCurso(cursoReq.nombre, cursoReq.categoriaId, cursoReq.duracionHoras,
         cursoReq.descripcion);
 
-    if (cursoCreado == null)
-      return ResponseEntity.badRequest().build();
-
-    GenericResponse gR = new GenericResponse();
-    gR.isOk = true;
-    gR.message = "Curso creado con éxito";
-    gR.id = cursoCreado.getCursoId();
-    return ResponseEntity.ok(gR);
-
+    return cursoCreado != null
+        ? ResponseEntity.ok(new GenericResponse(true, "Curso creado con éxito", cursoCreado.getCursoId()))
+        : ResponseEntity.badRequest().build();
   }
 
   // sin filtro: /api/cursos
@@ -58,7 +52,6 @@ public class CursoController {
       @RequestParam(value = "sinDocentes", required = false) boolean sinDocentes) {
     List<Curso> listaCursos = new ArrayList<>();
     if (sinDocentes) {
-      // listaCursos = algo que nos devuelva la llista sin docentes.
       listaCursos = cursoService.listaCursosSinDocentes();
     } else {
       listaCursos = cursoService.listaCursos();
@@ -67,30 +60,17 @@ public class CursoController {
     return ResponseEntity.ok(listaCursos);
 
   }
-
-  // - Asignar Docente a un curso.
-  // /api/cursos/docentes/25 : este representaria al id del docente
-  // /api/cursos/25/docentes: este prepresentaria al id del curso.
-  // podemos usar este metodo para asignar y dar de baja docente, usando los
-  // mismos parámetros
-  // se cambia el nombre altaBajaDocente (lo mismo se puede hacer en estudiante)
+  
   @PostMapping("/api/cursos/{cursoId}/docentes")
   @PreAuthorize("@controllersSecurity.isStaff(principal)")
   public ResponseEntity<GenericResponse> asignarDocente(@PathVariable Integer cursoId,
       @RequestBody CursoAsigDocRequest cADR) throws Exception {
-
-    GenericResponse gR = new GenericResponse();
     try {
-
       cursoService.altaBajaDocente(cursoId, cADR.docenteId, cADR.accion);
-      gR.isOk = true;
-      gR.message = "El docente ha sido dado de " + cADR.accion + " del curso";
-      return ResponseEntity.ok(gR);
+      return ResponseEntity.ok(new GenericResponse(true, "El docente ha sido dado de " + cADR.accion + " del curso"));
     } catch (Exception exc) {
-      gR.message = "No se pudo realizar la accion " + cADR.accion;
-      return ResponseEntity.badRequest().body(gR);
-      // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se pudo
-      // realizar la accion " + cADR.accion);
+      return ResponseEntity.badRequest()
+          .body(new GenericResponse(false, "No se pudo realizar la accion " + cADR.accion));
     }
   }
 }

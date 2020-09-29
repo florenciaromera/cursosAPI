@@ -75,18 +75,12 @@ public class EstudianteService {
     }
 
     public Inscripcion inscribir(Integer estudianteId, Integer cursoId) throws Exception {
-        // TODO: buscar estudiante x id
-        // buscar curso x id
-        // crear la inscripcion (aprobada por default)
-        // asignar la inscripcion al usuario del estudiante
-        // agregar al estudiante a la lista de estudiantes que tiene Curso
-
         Estudiante estudiante = buscarPorId(estudianteId);
         Curso curso = cursoService.buscarPorId(cursoId);
         Inscripcion inscripcion = new Inscripcion();
 
         inscripcion.setFecha(new Date());
-        inscripcion.setEstadoInscripcionEnum(EstadoInscripcionEnum.ACTIVO);
+        inscripcion.setEstadoInscripcion(EstadoInscripcionEnum.ACTIVO);
 
         // inscripcion.setCurso(curso);
         inscripcion.setUsuario(estudiante.getUsuario());
@@ -95,9 +89,6 @@ public class EstudianteService {
         curso.asignarEstudiante(estudiante);
 
         estudianteRepository.save(estudiante);
-
-        emailService.SendEmail(estudiante.getUsuario().getEmail(), "Curso Pinturillo: inscripcion exitosa",
-                "Hola " + estudiante.getNombre() + ", te has registrado con exito al curso " + curso.getNombre());
         return inscripcion;
     }
 }

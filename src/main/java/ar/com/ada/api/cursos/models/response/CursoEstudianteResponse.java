@@ -11,4 +11,16 @@ public class CursoEstudianteResponse {
     public List<Categoria> categorias = new ArrayList<>();
     public List<DocenteSimplificadoResponse> docentes = new ArrayList<>();
     public Integer duracionHoras;
+
+    public CursoEstudianteResponse(){
+
+    }
+
+    public CursoEstudianteResponse(Integer id, String nombre, String descripcion, Integer duracionHoras, List<Categoria> categorias){
+        this.cursoId = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.duracionHoras = duracionHoras;
+        this.categorias = categorias;
+    }
 }
