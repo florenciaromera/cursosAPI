@@ -7,7 +7,7 @@ Usar Endpoint: {{api_url}}/api/deudores
 Escenario1 - En la inscripcion)
 - en la inscripcion creamos el Deudor, pero tiene que ser en la primer inscripcion.
 - si el estudiante ya tiene un ID de deudor en PagADA: no crear un deudor en PagADA
-- si tiene, crear el deudor, guardar el id generado en nuestra tabla(estudiante)
+- si no tiene, crear el deudor, guardar el id generado en nuestra tabla(estudiante)
 
 Escenario2 - En la registracion)
 

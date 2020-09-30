@@ -133,7 +133,7 @@ public class EstudianteController {
     @PostMapping("/api/estudiantes/{id}/inscripciones")
     public ResponseEntity<GenericResponse> inscribir(@PathVariable Integer id, @RequestBody InscripcionRequest iR) {
 
-        Inscripcion inscripcionCreada = estudianteService.inscribir(id, iR.cursoId);
+        Inscripcion inscripcionCreada = estudianteService.inscribir(id, iR.cursoId, iR.medioPago, iR.infoMedioPago);
         GenericResponse gR = new GenericResponse();
         if (inscripcionCreada == null) {
             gR.isOk = false;

@@ -1,5 +1,6 @@
 package ar.com.ada.api.cursos.entities;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import javax.persistence.*;
@@ -36,6 +37,10 @@ public class Curso {
     private List<Inscripcion> inscripciones = new ArrayList<>();;
     @Column(name = "duracion_horas")
     private Integer duracionHoras;
+
+    private BigDecimal precio;
+
+    private String moneda;
 
     public Integer getCursoId() {
         return cursoId;
@@ -143,6 +148,22 @@ public class Curso {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+
+    public String getMoneda() {
+        return moneda;
+    }
+
+    public void setMoneda(String moneda) {
+        this.moneda = moneda;
     }
 
 }
