@@ -17,6 +17,7 @@ import ar.com.ada.api.cursos.models.request.CategoriaModifRequest;
 import ar.com.ada.api.cursos.models.response.CategoriaResponse;
 import ar.com.ada.api.cursos.models.response.GenericResponse;
 import ar.com.ada.api.cursos.services.*;
+import ar.com.ada.api.cursos.services.base.IService;
 
 @RestController
 public class CategoriaController {
@@ -39,7 +40,7 @@ public class CategoriaController {
     // usuario que esta logueado
     @PostMapping("/api/categorias")
     public ResponseEntity<GenericResponse> crearCategoria(Principal principal, @RequestBody Categoria categoria) {
-
+/*
         Usuario usuario = usuarioService.buscarPorUsername(principal.getName());
 
         if(usuario.getTipoUsuarioId() != TipoUsuarioEnum.STAFF) {
@@ -51,9 +52,9 @@ public class CategoriaController {
             //en este caso ni siquiera le contamos qeu hay algo ahi como para que pueda
             // seguir intentando.
             //return ResponseEntity.notFound().build();
-        }
+        }*/
 
-        categoriaService.crearCategoria(categoria);
+        categoriaService.crear(categoria);
 
         GenericResponse r = new GenericResponse();
         r.isOk = true;
@@ -84,7 +85,7 @@ public class CategoriaController {
 
         categoria.setNombre(cMR.nombre);
         categoria.setDescripcion(cMR.descripcion);
-        Categoria categoriaActualizada = categoriaService.actualizarCategoria(categoria);
+        Categoria categoriaActualizada = categoriaService.actualizar(categoria);
 
         GenericResponse r = new GenericResponse();
         r.isOk = true;

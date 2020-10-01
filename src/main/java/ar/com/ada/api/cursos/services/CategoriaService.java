@@ -6,44 +6,20 @@ import org.springframework.stereotype.*;
 import ar.com.ada.api.cursos.entities.*;
 import ar.com.ada.api.cursos.models.request.CategoriaModifRequest;
 import ar.com.ada.api.cursos.repos.CategoriaRepository;
+import ar.com.ada.api.cursos.services.base.GenericService;
+
 import java.util.*;
 
 @Service
-public class CategoriaService {
+public class CategoriaService extends GenericService<Categoria> {
 
-    @Autowired
-    CategoriaRepository repoCategoria;
-
-    public void crearCategoria(Categoria categoria) {
-        repoCategoria.save(categoria);
-    }
 
     public Categoria crearCategoria(String nombre, String descripcion) {
         Categoria categoria = new Categoria();
         categoria.setNombre(nombre);
         categoria.setDescripcion(descripcion);
-        repoCategoria.save(categoria);
+        this.crear(categoria);
         return categoria;
     }
 
-    public Categoria actualizarCategoria(Categoria categoria) {
-        return repoCategoria.save(categoria);
-    }
-
-    public Categoria buscarPorId(Integer id) {
-        Optional<Categoria> opCategoria = repoCategoria.findById(id);
-
-        // Si tiene un valor de categoria en el elemento que trajo.
-        // Camion con heladera dentro. hasta que no abrimos la puerta no sabemos si la
-        // trajo.
-        if (opCategoria.isPresent())
-            return opCategoria.get();
-        else
-            return null;
-
-    }
-
-    public List<Categoria> listarTodas() {
-        return repoCategoria.findAll();
-    }
 }
