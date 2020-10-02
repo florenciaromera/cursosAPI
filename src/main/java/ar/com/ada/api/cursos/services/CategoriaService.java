@@ -22,4 +22,8 @@ public class CategoriaService extends GenericService<Categoria> {
         return categoria;
     }
 
+    public List<Categoria> traerTodasConA() {
+        return ((CategoriaRepository)repo).findCategoriasConA();
+    }
+
 }
